@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 7</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+</div>
+</body>
+<script lang="js">
+    /*
+    v-on
+    v-if
+    v-for
+    v-model
+    v-bind
+    v-html
+    v-once          仅执行一次
+    插值表达式       {{  }}
+    事件阻止        @click.prevent
+    动态属性        属性名或事件名采用 [ ] 方式转换为变量方式
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: '<strong>hello-world</strong>',
+                title: '欢迎！',
+                disable: false,
+                show: false,
+                // 动态属性
+                titleName: 'title'
+            }
+        },
+        methods: {
+            handleClick() {
+                this.show = !this.show
+            },
+            handleSubmitClick(e) {
+                alert('click')
+            }
+        },
+        // @click 是 v-on:click 的简写； :title 是 v-bind:title 的简写；
+        template: `
+          <div>
+          <div @click="handleClick" :title="show">点击我控制下面一个页面 div</div>
+          <div v-if="show" :[titleName]="show">根据条件 show 显示/隐藏</div>
+          <div v-once v-html="message"></div>
+          <div>{{ 'a' + 'b' }}</div>
+          <div v-html="message" v-bind:title="title"></div>
+          <input v-bind:disabled="disable">
+          <form action="https://www.baidu.com" @click.prevent="handleSubmitClick">
+            <button type="submit">提交</button>
+          </form>
+          </div>
+        `
+    })
+
+    const vm = app.mount('#root')
+
+</script>
+</html>

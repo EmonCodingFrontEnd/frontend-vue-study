@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 18_2</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * 子组件向父组件发送事件：通过 v-model="XXX" 方式，必须满足以下几点：
+     * 1、子组件接收的属性必须是 props: ['modelValue']
+     * 2、子组件触发事件的名字，必须是 this.$emit('update:modelValue', newValue)
+     * 如果想修改 modelValue 名称，比如修改为 app，则父组件传参时必须是： v-model:app="XXX"，同事子组件也对应调整：
+     * 1、子组件接收的属性必须是 props: ['app']
+     * 2、子组件触发事件的名字，必须是 this.$emit('update:app', newValue)
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                count: 1,
+                num: 1
+            }
+        },
+        template: `
+          <div>
+          <counter v-model="count" v-model:app="num"/>
+          <counter v-model:app="num"/>
+          </div>
+        `
+    })
+
+    app.component('counter', {
+        props: ['modelValue', 'app'],
+        methods: {
+            handleItemClick() {
+                this.$emit('update:modelValue', this.modelValue + 5)
+            },
+            handleItemClick2() {
+                this.$emit('update:app', this.app + 5)
+            }
+        },
+        template: `
+          <div @click="handleItemClick">{{ modelValue }}</div>
+          <div @click="handleItemClick2">{{ app }}</div>
+        `
+    })
+
+    const vm = app.mount('#root')
+</script>
+</html>

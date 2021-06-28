@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 19_2</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * 父子组件传值时，如果有多个值，可以通过 v-model:x="XXX"  v-model:y="XXX"  的方式双向绑定
+     * 修饰符
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                count: '1aghij',
+                count2: 'abcdefg'
+            }
+        },
+        template: `
+          <div>
+          <counter v-model.uppercase="count"/>
+          <counter v-model:count2.upper="count2"/>
+          </div>
+        `
+    })
+
+    app.component('counter', {
+        props: {
+            'modelValue': String,
+            'modelModifiers': {
+                default: () => ({})
+            },
+            'count2': String,
+            'count2Modifiers': {
+                default: () => ({})
+            }
+        },
+        mounted() {
+            console.log(this.modelModifiers, '分隔符', this.count2Modifiers)
+            let newValue = this.count2 + '';
+            if (this.count2Modifiers.upper) {
+                newValue = newValue.toUpperCase()
+            }
+            this.$emit('update:count2', newValue)
+        },
+        methods: {
+            handleItemClick() {
+                let newValue = this.modelValue;
+                if (this.modelModifiers.uppercase) {
+                    newValue = newValue.toUpperCase()
+                }
+                this.$emit('update:modelValue', newValue)
+            }
+        },
+        template: `
+          <div @click="handleItemClick">{{ modelValue }}</div>
+          <div @click="handleItemClick">{{ count2 }}</div>
+        `
+    })
+
+    const vm = app.mount('#root')
+</script>
+</html>

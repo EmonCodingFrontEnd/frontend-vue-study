@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 36</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * toRefs 语法在解构对象时，如果指定的属性不存在，会返回 undefined；修改 toRefs 返回的 ref 对象，“会影响源对象的值”
+     * toRef 从指定对象获取属性，如果指定的属性不存在，创建新的 ref 对象；修改 toRef 返回的 ref 对象值，“会影响源对象的值”
+     */
+    const app = Vue.createApp({
+        template: `
+          <div>data={{ data.name }}</div>
+          <div>nameOfToRefs={{ name }}</div>
+          <div>sexOfToRefs={{ sex }}</div>
+          <div>ageOfToRefs{{ age1 }}</div>
+          <hr>
+          <div>ageOfToRef{{ age2 }}</div>
+        `,
+        setup(props, context) {
+            const {reactive, toRefs, toRef, isRef} = Vue
+            const obj = {name: '初始name', sex: '初始性别'};
+
+            const data = reactive(obj)
+            const {name: name, sex} = toRefs(data)
+            name.value = '修改1次的名字'
+            sex.value = '修改1次的性别'
+
+            // 使用 toRefs 可以解构
+            // toRefs proxy({name: 'dell', age: 28}) ==> {name: proxy({value: 'dell'}), age: proxy({value: 28})}
+            const {age: age1} = toRefs(data, 'age')
+            console.log('age1是否ref?"', isRef(age1))
+
+            const age2 = toRef(data, 'age');
+            console.log('age2是否ref?"', isRef(age2))
+            age2.value = '修改1次的age'
+            setTimeout(() => {
+                age2.value = '修改2次的age'
+            }, 2000)
+            return {
+                data,
+                name,
+                sex,
+                age1,
+                age2
+            }
+        }
+    })
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>
+
+

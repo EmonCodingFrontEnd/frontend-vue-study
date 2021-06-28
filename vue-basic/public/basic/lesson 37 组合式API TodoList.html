@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 37</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+
+    // 关于 list 操作的内容进行的封装
+    const listRelativeEffect = () => {
+        const {reactive} = Vue
+        const list = reactive([])
+        const addItemToList = (item) => {
+            list.push(item)
+        }
+        return {
+            list, addItemToList
+        }
+    }
+
+
+    // 关于 inputValue 操作的内容进行的封装
+    const inputRelativeEffect = () => {
+        const {ref} = Vue
+        const inputValue = ref('')
+        const handleInputValueChange = (e) => {
+            inputValue.value = e.target.value
+        }
+        return {inputValue, handleInputValueChange}
+    }
+
+
+    const app = Vue.createApp({
+        template: `
+          <div>
+          <input :value="inputValue" @input="handleInputValueChange"/>
+          <button @click="()=>addItemToList(inputValue)">提交</button>
+          <h1>{{ list }}</h1>
+          </div>
+          <ul>
+          <li v-for="(item, index) in list" :key="index">item={{ item }}</li>
+          </ul>
+        `,
+        setup() {
+            // 流程调度中转
+            const {list, addItemToList} = listRelativeEffect()
+            const {inputValue, handleInputValueChange} = inputRelativeEffect()
+
+
+            return {
+                list, addItemToList,
+                inputValue, handleInputValueChange
+            }
+        }
+    })
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>
+
+

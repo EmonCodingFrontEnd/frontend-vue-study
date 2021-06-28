@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 18</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * 子组件向父组件发送事件
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                count: 1
+            }
+        },
+        methods: {
+            handleAddOne(param, param2, param3) {
+                // this.count += param + param2.step
+                this.count = param3
+            }
+        },
+        template: `
+          <div>
+          <counter v-bind:count="count" @add-one="handleAddOne"/>
+          </div>
+        `
+    })
+
+    app.component('counter', {
+        props: ['count'],
+        // 定义本组件会向外触发什么事件，并不会实际触发事件；如果声明的事件兼容实际触发的事件，不会有任何提示；否则会提示被触发的事件并未声明。
+        // emits: ['addOne','add'],
+        // 可以通过对象的方式定义 emits ，可以额外进行事件的传参校验
+        emits: {
+            addOne: (count, c2, c3) => {
+                console.log(count, c2, c3)
+                return count >= 0;
+            }
+        },
+        methods: {
+            handleItemClick() {
+                this.$emit('addOne', -1, {step: 1}, this.count + 5)
+            }
+        },
+        template: `
+          <div @click="handleItemClick">{{ count }}</div>
+        `
+    })
+
+
+    const vm = app.mount('#root')
+</script>
+</html>

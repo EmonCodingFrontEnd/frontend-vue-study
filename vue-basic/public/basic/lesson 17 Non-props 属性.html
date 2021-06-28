@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 17</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * Non-props 属性：
+     * 1、如果子组件不使用 props 接收，且子组件最外层只有一个元素，则会加到最外层的元素上；否则无效
+     * 2、对于最外层只有一个元素的，如果不想添加到最外层的元素上，可以在子组件设置  inheritAttrs: false
+     * 3、对于最外层有多个元素的，可以通过 v-bind="$attrs" 引入父组件传递的所有属性；或者  v-bind:msg=$attrs.msg  指定某个属性
+     */
+    const app = Vue.createApp({
+        template: `
+          <div>
+          <counter style="color:red;" msg="hello" msg1="hello1"/>
+          </div>
+        `
+    })
+
+    app.component('counter', {
+        // props: ['msg'],
+        // inheritAttrs: false,
+        mounted() {
+            console.log(this.$attrs)
+        },
+        template: `
+          <div v-bind:msg="$attrs.msg">Counter</div>
+          <div v-bind="$attrs">Counter</div>
+          <div :msg1="$attrs.msg1">Counter</div>
+        `
+    })
+
+
+    const vm = app.mount('#root')
+</script>
+</html>

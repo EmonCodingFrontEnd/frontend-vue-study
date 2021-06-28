@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 36_2</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    const app = Vue.createApp({
+        methods: {
+            handleChange() {
+                alert('change')
+            }
+        },
+        template: `
+          <child propKey="prop值" attrKey="attr值"/>
+          <hr>
+          <child2>parent</child2>
+          <hr>
+          <child3 @change="handleChange">parent</child3>
+        `
+    })
+
+    app.component('child', {
+        props: ['propKey'],
+        template: `
+          <div>child</div>
+        `,
+        setup(props, context) {
+            const {attrs, slots, emit} = context
+            console.log(attrs) // None-Props 属性，表示不是通过子组件的 props 属性引入的；如果 props 也引入了，则不会包含在 attrs 中
+            return {}
+        }
+    })
+
+    app.component('child2', {
+        props: ['propKey'],
+        template: `
+          <div>child2</div>
+        `,
+        setup(props, context) {
+            const {attrs, slots, emit} = context
+            const {h} = Vue
+            console.log(slots.default())
+            return () => h('div', {}, [slots.default()]) // 这种方式的返回，会覆盖 template 的选人效果
+        }
+    })
+
+    app.component('child3', {
+        props: ['propKey'],
+        template: `
+          <div @click="handleClick">child3</div>
+        `,
+        setup(props, context) {
+            const {attrs, slots, emit} = context
+
+            function handleClick() {
+                emit('change')
+            }
+
+            return {
+                handleClick
+            }
+        }
+    })
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>
+
+

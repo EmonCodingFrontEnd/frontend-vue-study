@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 13</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     *  双向绑定：input, textarea, checkbox, radio, select
+     *  修饰符：  lazy, number, trim
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                message: 'hello',
+                checkValue: true,
+                checkValues: ['jack', 'lee'],
+                radioValue: 'lee',
+                selectValue: '',
+                selectValues: [],
+                options: [
+                    {text: 'A', value: {value: 'A'}},
+                    {text: 'B', value: {value: 'B'}},
+                    {text: 'C', value: {value: 'C'}}
+                ],
+                newChkValue: 'hello',
+                messageLazy: 'lazy',
+                messageNumber: 123,
+                messageTrim: 'trim',
+            }
+        },
+        methods: {},
+        template: `
+          <div>
+          {{ message }}<br/>
+          <input v-model="message"/><br/>
+          <textarea v-model="message"/><br/>
+          <hr>
+          {{ checkValue }}  <br>
+          <input type="checkbox" v-model="checkValue"/><br/>
+          <hr>
+          {{ checkValues }}<br>
+          jack:<input type="checkbox" v-model="checkValues" value="jack"/><br/>
+          dell:<input type="checkbox" v-model="checkValues" value="dell"/><br/>
+          lee:<input type="checkbox" v-model="checkValues" value="lee"/><br/>
+          <hr>
+          {{ radioValue }}<br>
+          jack:<input type="radio" v-model="radioValue" value="jack"/><br/>
+          dell:<input type="radio" v-model="radioValue" value="dell"/><br/>
+          lee:<input type="radio" v-model="radioValue" value="lee"/><br/>
+          <hr>
+          {{ selectValue }}
+          <select v-model="selectValue">
+            <option disabled value="">请选择内容</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+          </select>
+          <hr>
+          {{ selectValues }}
+          <select v-model="selectValues" multiple>
+            <option v-for="item in options" :value="item.value">
+              {{ item.text }}
+            </option>
+          </select>
+          <hr>
+          {{ newChkValue }}
+          <input type="checkbox"
+                 v-model="newChkValue"
+                 true-value="hello"
+                 false-value="world"
+          >
+          <hr>
+          {{ messageLazy }}
+          <input type="text" v-model.lazy="messageLazy">
+          <hr>
+          {{ typeof messageNumber }}
+          <input type="number" v-model.number="messageNumber"/>
+          <hr>
+          {{ messageTrim }}
+          <input type="text" v-model.trim="messageTrim">
+          <hr>
+          </div>
+        `
+    })
+
+    const vm = app.mount('#root')
+</script>
+</html>

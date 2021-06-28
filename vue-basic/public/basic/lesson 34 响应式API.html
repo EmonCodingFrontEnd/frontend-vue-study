@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 34</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+
+    /**
+     * 对数据做校验的插件
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                name: 'dell',
+                age: 28
+            }
+        },
+        methods: {
+            handleClick() {
+                alert(23)
+            }
+        },
+        mounted() {
+            // 实例方法可以调用到 setup
+            console.log(this.$options.setup())
+        },
+        template: `
+          <div @click="handleClick">name:{{ name }}, age:{{ age }}</div>
+        `,
+        /**
+         * 执行 setup 时，组件实例尚未被创建。因此，你只能访问以下 property：
+         * - props
+         * - attrs
+         * - slots
+         * - emit
+         * 换句话说，你将无法访问以下组件选项：
+         * - data
+         * - computed
+         * - methods
+         * 【重点】 setup 是在 created 实例被完全初始化之前执行的
+         * @param props
+         * @param context
+         * @returns {{handleClick: handleClick, name: string}}
+         */
+        setup(props, context) {
+            // 由于尚未实例化，所以没法调用 this
+            // 会覆盖 data 定义的同名属性，也会覆盖 methods 定义的同名方法
+            return {
+                name: 'dellchanged',
+                handleClick: () => {
+                    alert(123)
+                }
+            }
+        }
+    })
+
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 40</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+
+    /**
+     * 生命周期函数
+     * beforeCreate, created 不可使用，在 setup 没有对应关系，而是直接写到 setup() 中
+     * beforeMount => onBeforeMount
+     * mounted => onMounted
+     * beforeUpdate => onBeforeUpdate
+     * updated => onUpdated
+     * beforeUnmount => onBeforeUnmount
+     * unmounted => onUnmounted
+     */
+    const app = Vue.createApp({
+        template: `
+          <div @click="handleClick">{{ name }}</div>
+        `,
+        setup() {
+            const {
+                ref,
+                onBeforeMount,
+                onMounted,
+                onBeforeUpdate,
+                onUpdated,
+                onRenderTracked,
+                onRenderTriggered,
+                onErrorCaptured
+            } = Vue
+            const name = ref('dell')
+            const handleClick = () => {
+                name.value = 'lm'
+            }
+            onBeforeMount(() => {
+                console.log('onBeforeMount')
+            })
+            onMounted(() => {
+                console.log('onMounted')
+            })
+            onBeforeUpdate(() => {
+                console.log('onBeforeUpdate')
+            })
+            onUpdated(() => {
+                console.log('onUpdated')
+            })
+            // 每次渲染后重新收集响应式依赖
+            onRenderTracked(() => {
+                console.log('onRenderTracked')
+            })
+            // 每次触发页面重新渲染时自动执行
+            onRenderTriggered(() => {
+                console.log('onRenderTriggered')
+            })
+            onErrorCaptured(() => {
+                console.log('onErrorCaptured')
+            })
+            return {
+                name,
+                handleClick
+            }
+        }
+    })
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>
+
+

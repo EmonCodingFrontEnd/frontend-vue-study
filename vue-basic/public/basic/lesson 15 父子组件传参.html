@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 15</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * 父子组件传参
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                num: 123,
+                func: () => {
+                    alert(123)
+                }
+            }
+        },
+        methods: {},
+        template: `
+          <div>
+          <test :content="num" :func="func"/>
+          </div>
+        `
+    })
+
+    app.component('test', {
+        /**
+         * 【子组件定义参数】
+         * type： String, Boolean, Array, Object, Function, Symbol
+         * required: 必填
+         * default:  默认值
+         */
+        props: {
+            content: {
+                type: Number,
+                validator: function (value) {
+                    return value < 1000
+                },
+                default: function () {
+                    return 456;
+                }
+            },
+            func: Function
+        },
+        methods: {
+            handleClick() {
+                alert(456)
+                this.func()
+            }
+        },
+        template: `
+          <div @click="this.handleClick">{{ content }}</div>`
+    })
+
+    const vm = app.mount('#root')
+</script>
+</html>

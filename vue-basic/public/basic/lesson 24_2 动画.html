@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 24_2</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * 单元素，单组件的入场出场动画
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                show: false
+            }
+        },
+        methods: {
+            handleClick() {
+                this.show = !this.show
+            },
+            handleBeforeEnter(el) {
+                el.style.color = 'red'
+            },
+            handleEnterActive(el, done) {
+                const animation = setInterval(() => {
+                    const color = el.style.color
+                    if (color === 'red') {
+                        el.style.color = 'green'
+                    } else {
+                        el.style.color = 'red'
+                    }
+                }, 1000)
+                setTimeout(() => {
+                    clearInterval(animation)
+                    done()
+                }, 5000)
+            },
+            handleEnterEnd(el) {
+                console.log(123)
+            },
+            handleBeforeLeave(el) {
+                console.log('离场之前')
+            },
+            handleLeaveActive(el, done) {
+                console.log('离场')
+                done()
+            },
+            handleAfterLeave(el) {
+                console.log('离场之后')
+
+            }
+        },
+        template: `
+          <div>
+          <!-- // 可以通过 enter-active-class和leave-active-class属性指定具体样式名称，二不用采用默认规范
+          <transition
+                enter-active-class="animate__animated animate__flash"
+                leave-active-class="animate__animated animate__backInDown"
+            >
+          enter-from-class,enter-active-class,enter-to-class
+          leave-from-class,leave-active-class,leave-to-class
+          -->
+          <!--// type="transition" 表示执行动画时以过度时间为准-->
+          <!--// type="animation" 表示执行过度时以动画时间为准-->
+          <!--// :duration="2000" 执行时间-->
+          <!--// :duration="{enter: 1000, leave: 3000}" 执行时间-->
+          <!--// :css="false" 禁用css动画，采用js控制，通过 @before-enter,@enter,@after-enter-->
+          <transition :css="false"
+                      @before-enter="handleBeforeEnter"
+                      @enter="handleEnterActive"
+                      @after-enter="handleEnterEnd"
+                      @before-leave="handleBeforeLeave"
+                      @leave="handleLeaveActive"
+                      @after-leave="handleAfterLeave"
+          >
+            <div v-show="show">hello world</div>
+          </transition>
+          <button @click="handleClick">切换</button>
+          </div>
+        `
+    })
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+    @keyframes shake {
+        0% {
+            transform: translateX(-100px);
+        }
+        50% {
+            transform: translateX(-50px);
+        }
+        100% {
+            transform: translateX(50px);
+        }
+    }
+
+    .v-enter-from {
+        color: red;
+    }
+
+    .v-enter-active {
+        animation: shake 10s;
+        transition: all 3s ease;
+    }
+
+    .v-enter-to {
+        color: green;
+    }
+
+    .v-leave-from {
+        color: green;
+    }
+
+    .v-leave-active {
+        animation: shake 10s;
+        transition: all 3s ease;
+    }
+
+    .v-leave-to {
+        color: red;
+    }
+</style>
+</html>

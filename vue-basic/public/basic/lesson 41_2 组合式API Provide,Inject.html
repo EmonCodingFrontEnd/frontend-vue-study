@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 41_2</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * prodive/inject
+     * 修改父组件的值，通过父组件的方法，限制子组件直接修改
+     */
+    const app = Vue.createApp({
+        template: `
+          <div>
+          <child></child>
+          </div>
+        `,
+        setup() {
+            const {
+                ref, provide, readonly
+            } = Vue
+            const name = ref('dell')
+            // key,value
+            provide('name', readonly(name))
+            provide('changeName', (value) => {
+                name.value = value
+            })
+            return {}
+        }
+    })
+
+    app.component('child', {
+        template: `
+          <div @click="handleClick">{{ name }}</div>
+        `,
+        setup() {
+            const {ref, isRef, inject} = Vue
+            // key,defaultValue
+            const name = inject('name', 'hello')
+            console.log('name is ref=', isRef(name))
+
+            const changeName = inject('changeName')
+
+            const handleClick = () => {
+                changeName('lee')
+            }
+            return {
+                name,
+                handleClick
+            }
+        }
+    })
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>
+
+

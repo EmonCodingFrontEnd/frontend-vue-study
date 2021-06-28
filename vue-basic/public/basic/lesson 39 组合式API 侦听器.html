@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 39</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+
+    /**
+     * watch 侦听器
+     * watchEffect 侦听器，偏向于 effect
+     */
+    const app = Vue.createApp({
+        template: `
+          <div>
+          <input v-model="name">
+          </div>
+          <div>
+          Name is {{ name }}
+          </div>
+          <hr>
+          <div>
+          <input v-model="name2">
+          </div>
+          <div>
+          Name is {{ name2 }}
+          </div>
+          <hr>
+          <div>
+          <input v-model="englishName">
+          </div>
+          <div>
+          Name is {{ englishName }}
+          </div>
+        `,
+        setup() {
+            const {ref, reactive, watch, toRefs, watchEffect, watchEffecttoRefs} = Vue
+            const name = ref('dell')
+            const nameObj = reactive({name2: 'dell', englishName: 'lee'})
+
+
+            /**
+             具备一定的惰性 lazy
+             参数可以拿到原始和当前值
+             对于简单值，可以监听；
+             watch(name, (curName, prevName)=>{console.log(curName, prevName})
+             对于对象值，需要使用箭头函数监听，比如： ()=>nameObj.name
+             watch(()=>nameObj.name2, (curName2, prevName2)=>{console.log(curName2, prevName2})
+             可以侦听多个数据的变化，用一个侦听器承载
+             */
+            const topWatch = watch([name, () => nameObj.name2, () => nameObj.englishName], ([curName, curName2, curEng],
+                                                                                            [prevName, prevName2, prevEng]) => {
+                console.log('watch', curName, curName2, curEng, '--', prevName, prevName2, prevEng)
+                /*setTimeout(() => {
+                    topWatch()
+                }, 3000)*/
+            }, {
+                immediate: true
+            })
+
+            /**
+             立即执行，没有惰性 immediate
+             不需要传递你要侦听的内容，自动会感知代码依赖，不需要传递很多参数，只需要传递一个回调函数
+             参数仅能拿到最新值
+             */
+            /*const stopWatchEffect = watchEffect(() => {
+                console.log('watchEffect', nameObj.name2, nameObj.englishName)
+                setTimeout(() => {
+                    stopWatchEffect()
+                }, 5000)
+            })*/
+
+            const {name2, englishName} = toRefs(nameObj)
+            return {
+
+                name,
+                name2,
+                englishName
+            }
+        }
+    })
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>
+
+

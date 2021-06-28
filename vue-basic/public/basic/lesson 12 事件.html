@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 12</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * 事件的按键修饰符：  enter, tab, delete, esc, up, down, left, right, alt, space, shift, ctrl
+     * 鼠标事件：  left, right, middle
+     * 精确修饰符： exact
+     * 单个事件函数调用时类似： func 或者 func($event, params)
+     * 多个事件函数调用的时候类似： func1(),func2(),func3($event, params...)
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                counter: 0
+            }
+        },
+        methods: {
+            handleBtnClickFirst(event, num) {
+                console.log(event.target)
+                this.counter += num
+            },
+            handleBtnClickSecond() {
+                console.log('alert2')
+            },
+            handleDivClick() {
+                alert('div clicked')
+            },
+            handleBtnClick() {
+                this.counter += 1
+            },
+            handleKeyDown(event) {
+                // if (event.keyCode === 13) {
+                //     console.log('keyDown');
+                // }
+                console.log('keyDown')
+            },
+            handleClick() {
+                console.log('click')
+            },
+            handleCtrlEnter() {
+                console.log('谁在召唤我！')
+            }
+        },
+        template: `
+          {{counter}}
+          <button @click="handleBtnClickFirst($event,2), handleBtnClickSecond()">点击调用累加</button>
+          <button @click="counter++">点击直接累加</button> <!--//不建议-->
+          <hr>
+          <!-- // 使用事件的 capture 修饰符，修改事件的冒泡行为=>捕获 -->
+          <!-- // 使用事件的 prevent 修饰符，阻止默认行为 -->
+          <!-- // 使用事件的 once 修饰符，事件仅执行一次 -->
+          <!-- // 使用事件的 self 修饰符，限制为点击自身触发事件 -->
+          <!-- // 使用事件的 passive 修饰符，对绑定 @scroll 这类原生的事件时有性能问题，指定 passive 模式，提高滚动性能 -->
+          <div @click.once="handleDivClick" style="background: #42b983">
+          <span style="color: blueviolet;margin-right: 20px;">我是handleDivClick下面的span</span>
+          <!-- // 使用事件的 stop 修饰符，阻止事件冒泡 -->
+          <button @click.stop="handleBtnClick">button</button>
+          </div>
+          <hr>
+          <div>
+          <input type="text" @keydown.delete="handleKeyDown"/>
+          <div @click.middle="handleClick">只有鼠标滚轮按下生效</div>
+          <input @click.ctrl="handleClick" value="只要按键包含Ctrl再点击鼠标即可触发，哪怕按住的是Ctrl+C">
+          <input @click.ctrl.exact="handleClick" value="仅按键等于Ctrl再点击鼠标才可触发"><!-- // 貌似无效 -->
+          </div>
+          <hr>
+          <input @keydown.ctrl.enter="handleCtrlEnter" value="只有【Ctrl+Enter】可以触发我"/>
+        `
+    })
+
+    const vm = app.mount('#root')
+</script>
+</html>

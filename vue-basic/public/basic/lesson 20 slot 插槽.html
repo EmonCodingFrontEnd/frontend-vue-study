@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 20</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+<script lang="js">
+    /**
+     * slot 插槽
+     * 父模板里调用的数据属性，使用的都是父模板里的数据
+     * 子模板里调用的数据属性，使用的都是子模板里的数据
+     * 具名插槽 <template v-slot:name> 或者简化为  <template #name>
+     * 作用域插槽
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                text: '提交'
+            }
+        },
+        template: `
+          <div>
+          <my-form>
+            <test/>
+          </my-form>
+          <hr>
+          <my-form>
+            <div>{{ text }}</div>
+          </my-form>
+          <my-form>
+            <button>{{ text }}</button>
+          </my-form>
+          <my-form></my-form>
+          <hr>
+          <layout>
+            <template v-slot:header>
+              <div>header</div>
+            </template>
+            <template #footer>
+              <div>footer</div>
+            </template>
+          </layout>
+          <hr>
+          <!-- // 父组件接收作用域插槽传递的数据-->
+          <list v-slot="slotProps">
+            <span>{{ slotProps.item }}</span>
+          </list>
+          <list v-slot="{item}">
+            <span>{{ item }}</span>
+          </list>
+          </div>
+        `
+    })
+
+    app.component('test', {
+        template: `
+        <div>test</div>
+        `
+    })
+
+    app.component('my-form', {
+        methods: {
+            handleClick() {
+                alert(123)
+            }
+        },
+        template: `
+          <div>
+          <input/>
+          <span @click="handleClick">
+            <slot>default value</slot>
+          </span>
+          </div>
+        `
+    })
+
+    // 具名插槽
+    app.component('layout', {
+        template: `
+        <div>
+        <slot name="header"></slot>
+        <div>content</div>
+        <slot name="footer"></slot>
+        </div>
+        `
+    })
+
+    // 作用域插槽
+    app.component('list', {
+        data() {
+            return {
+                list: [1, 2, 3]
+            }
+        },
+        template: `
+          <div>
+          <!-- // 通过 :item="item" 传递子组件 slot 的数据到父组件-->
+          <slot v-for="item in list" :item="item"></slot>
+          </div>
+        `
+    })
+
+    const vm = app.mount('#root')
+</script>
+</body>
+</html>

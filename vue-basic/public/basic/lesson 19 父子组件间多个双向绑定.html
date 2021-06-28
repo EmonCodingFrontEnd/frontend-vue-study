@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 19</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * 父子组件传值时，如果有多个值，可以通过 v-model:x="XXX"  v-model:y="XXX"  的方式双向绑定
+     *
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                count: 1,
+                num: 1,
+            }
+        },
+        template: `
+          <div>
+          <counter v-model:count="count"
+                   v-model:num="num"
+          />
+          </div>
+        `
+    })
+
+    app.component('counter', {
+        props: ['count', 'num'],
+        methods: {
+            handleItemClick() {
+                this.$emit('update:count', this.count + 5)
+            },
+            handleItemClick2() {
+                this.$emit('update:num', this.num + 3)
+            }
+        },
+        template: `
+          <div @click="handleItemClick">{{ count }}</div>
+          <div @click="handleItemClick2">{{ num }}</div>
+        `
+    })
+
+    const vm = app.mount('#root')
+</script>
+</html>

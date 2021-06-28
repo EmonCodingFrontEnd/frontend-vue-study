@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 29</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+
+    /**
+     * 局部指令：
+     * 1、定义
+     * 2、在Vue的app上引入 directives: directives 即可
+     */
+    const directives = {
+        focus: {
+            mounted(el) {
+                el.focus()
+            }
+        }
+    }
+
+    /**
+     * 自定义指令 directive
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                hello: true
+            }
+        },
+        // directives: directives,
+        template: `
+          <div>
+          <div v-if="hello"><input v-focus></div>
+          </div>
+        `
+    })
+
+    /**
+     * 全局指令
+     */
+    app.directive('focus', {
+        beforeMount(el) {
+            console.log('beforeMount')
+        },
+        mounted(el) {
+            el.focus()
+            console.log('mounted')
+        },
+        beforeUpdate() {
+            console.log('beforeUpdate')
+        },
+        updated() {
+            console.log('updated')
+        },
+        beforeUnmount() {
+            console.log('beforeUnmount')
+        },
+        unmounted() {
+            console.log('unmounted')
+        }
+    })
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>

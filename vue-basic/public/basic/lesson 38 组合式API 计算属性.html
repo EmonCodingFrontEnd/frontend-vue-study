@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 38</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+
+    /**
+     * computed 计算属性
+     */
+    const app = Vue.createApp({
+        template: `
+          <div><span @click="handleClick">{{ countObj.count }}</span> -- {{ countAddFive }}</div>
+        `,
+        setup() {
+            const {ref, reactive, computed} = Vue
+            const countObj = reactive({count: 0})
+            const handleClick = () => {
+                countObj.count += 1
+            }
+            let countAddFive = computed({
+                // 读取 countAddFive 时触发
+                get: () => {
+                    return countObj.count + 5
+                },
+                // 修改 countAddFive 时触发
+                set: (param) => {
+                    countObj.count = param - 5
+                }
+            })
+            setTimeout(() => {
+                countAddFive.value = 100
+            }, 3000)
+            return {
+                countObj,
+                countAddFive,
+                handleClick
+            }
+        }
+    })
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>
+
+

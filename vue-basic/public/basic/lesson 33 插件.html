@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 33</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+
+    /**
+     * 对数据做校验的插件
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                name: 'dell',
+                age: 28
+            }
+        },
+        rules: {
+            age: {
+                validate: age => {
+                    return age > 25
+                },
+                message: 'too young,  too simple'
+            },
+            name: {
+                validate: name => {
+                    return name.length > 4
+                },
+                message: 'name too short'
+            }
+        },
+        template: `
+          <div>name:{{ name }}, age:{{ age }}</div>
+        `
+    })
+
+    // 插件的方式实现数据校验【推荐】可读性和可扩展性都比 mixin 强
+    const validatorPlugin = (app, options) => {
+        app.mixin({
+            created() {
+                for (let key in this.$options.rules) {
+                    const item = this.$options.rules[key]
+                    this.$watch(key, (curVlue, preValue) => {
+                        const result = item.validate(curVlue);
+                        if (!result) {
+                            console.log(item.message)
+                        }
+                    })
+                }
+            }
+        })
+    }
+    app.use(validatorPlugin)
+
+    // 混入的方式实现数据校验【不推荐】
+    /*app.mixin({
+        created() {
+            const options = this.$options.rules
+            for (let key in this.$options.rules) {
+                const item = this.$options.rules[key]
+                this.$watch(key, (curVlue, preValue) => {
+                    const result = item.validate(curVlue);
+                    if (!result) {
+                        console.log(item.message)
+                    }
+                })
+            }
+        }
+    })*/
+
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>

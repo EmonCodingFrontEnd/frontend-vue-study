@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 22</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * v-once   让某个元素标签只渲染一次
+     * ref      实际上是获取  节点 / 组件引用 的一个语法
+     * provide / inject 父子和孙子节点，多级父子组件传递
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                count: 1,
+                num: 1
+            }
+        },
+        // 如果是直接写入属性值，可以采用如下：
+        // provide: {
+        //     count: 1
+        // },
+        // 如果要引用 data 中的 count 属性，需要把 provide 调整成函数，如下：
+        provide() {
+            return {
+                count: this.count
+            }
+        },
+        mounted() {
+            console.log(this.$refs.count.innerHTML = 'hello')
+            // console.log(this.$refs.common.sayHello())
+        },
+        template: `
+          <div @click="count += 1" v-once>{{ count }}</div>
+          <div>
+          <hr>
+          <div ref="count">{{ count }}</div>
+          <hr>
+          <common-item ref="common"/>
+          <hr>
+          <div>
+            <child :count="count" :num="num"/>
+            // 对于 provide 的传值，是一次性的，通过点击没法修改跨组件
+            <button @click="count += 1; num += 1">Add</button>
+          </div>
+          </div>
+        `
+    })
+
+    app.component('common-item', {
+        methods: {
+            sayHello() {
+                alert('hello')
+            }
+        },
+        template: `
+          <div>hello world</div>`
+    })
+
+    app.component('child', {
+        template: `
+          <child-child/>
+          <div>num = {{ $attrs.num }}</div>
+        `
+    })
+
+    app.component('child-child', {
+        inject: ['count'],
+        template: `
+          <div>count = {{ count }}</div>`
+    })
+
+    const vm = app.mount('#root')
+</script>
+</html>

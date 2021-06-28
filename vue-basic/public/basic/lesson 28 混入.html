@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 28</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    // 局部混入
+    const myMixin = {
+        data() {
+            return {
+                number: 2,
+                count: 1
+            }
+        },
+        created() {
+            console.log('mixin created')
+        },
+        methods: {
+            handleClick() {
+                console.log('mixin handleClick')
+            }
+        },
+    }
+
+    /**
+     * mixin 混入
+     * 组件 data, methods 优先级高于 mixin data, methods 优先级
+     * 声明周期函数，先执行  mixin 里面的，再执行组件里面的
+     * 局部 mixin ，每一个使用的组件，都需要使用 mixins 配置引入
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                number: 1
+            }
+        },
+        created() {
+            console.log('created')
+        },
+        mixins: [myMixin],
+        methods: {
+            handleClick() {
+                console.log('handleClick')
+            }
+        },
+        template: `
+          <div>【雷达提醒】<font style="color:#F27D3E;font-weight:bold">「问秋🌻」</font> 第<font style="color:#F27D3E;font-weight:bold">「5」</font> 次访问了你在<font style="color:#F27D3E;font-weight:bold">「侧边栏素材库」</font> 里发送的互动雷达 <a href='https://img.ishanshan.com/gimg/user/n///2468358816735817728.pdf?from=sidebar'>惠吧吃喝玩乐使用手册.pdf</a> ，停留了<font style="color:#F27D3E;font-weight:bold">「0s」</font> ，快去跟进哦~ <a href='http://scrmtest.huiba123.com/h5/custinfo?corpId=ww67e26ea62d9716e0&autoLogin=true&custId=wmbvXnDgAA32lay55-hinDJcg6MmxYaA&entry=single_chat_tools'>查看客户详情</a> | <a href='https://www.baidu.com'>查看今日雷达</a></div>
+          <div>
+          <div>{{ number }}</div>
+          <div>{{ count }}</div>
+          <child></child>
+          <button @click="handleClick">切换</button>
+          </div>
+        `
+    })
+
+    app.component('child', {
+        mixins: [myMixin],
+        template: `
+          <div>{{ count }}</div>
+        `
+    });
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 4</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /*
+    v-on
+    v-if
+    v-for
+    v-model
+    v-bind
+     */
+    const app = Vue.createApp({
+
+        data() {
+            return {
+                inputValue: '',
+                list: []
+            }
+        },
+        methods: {
+            handleAddItem() {
+                this.list.push(this.inputValue)
+                this.inputValue = ''
+            }
+        },
+        template: `
+          <div>
+          <input type="text" v-model="inputValue">
+          <button v-on:click="handleAddItem" v-bind:title="inputValue">增加 {{ inputValue }}</button>
+          <ul>
+            <todo-item v-for="(item, index) in list" v-bind:content="item" v-bind:tabindex="index"></todo-item>
+          </ul>
+          </div>
+        `
+    })
+
+    app.component('todo-item', {
+        props: ['content', 'tabindex'],
+        data() {
+            return {
+                item: 'hello dell'
+            }
+        },
+        template: `
+          <li>{{ tabindex }} -- {{ content }}</li>
+        `
+    })
+
+    app.mount('#root')
+</script>
+</html>

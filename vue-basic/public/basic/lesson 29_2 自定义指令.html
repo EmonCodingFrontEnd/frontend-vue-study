@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 29_2</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+
+    /**
+     * 自定义指令 directive
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                distance: 100
+            }
+        },
+        template: `
+          <div>
+          <div v-pos:left="distance" class="header">
+            <input/>
+          </div>
+          </div>
+        `
+    })
+
+    /**
+     * 全局指令一种特定场景的简化方案！
+     * 等价于 mounted + updated 带来的效果
+     */
+    app.directive('pos', (el, binding) => {
+        el.style[binding.arg] = binding.value + 'px'
+    })
+
+    /**
+     * 全局指令
+     */
+    /*app.directive('pos', {
+        mounted(el, binding) {
+            el.style[binding.arg] = binding.value + 'px'
+        },
+        updated(el, binding) {
+            el.style[binding.arg] = binding.value + 'px'
+        }
+    })*/
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+    .header {
+        position: absolute
+    }
+</style>
+</html>

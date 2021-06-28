@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 9</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    /**
+     * Vue 样式
+     */
+    const app = Vue.createApp({
+        data() {
+            return {
+                classString: 'red',
+                classObject: {red: true, green: true},
+                classArray: ['green', 'red', {brown: true}],
+                styleString: 'color: blueviolet;',
+                styleObject: {
+                    color: 'orange',
+                    background: 'yellow'
+                }
+            }
+        },
+        methods: {},
+        template: `
+          <div v-bind:class="classString">classString hello world</div>
+          <div v-bind:class="classObject">classObject hello world</div>
+          <div v-bind:class="classArray">classArray hello world</div>
+          <div :class="classString">
+          <demo class="green"/>
+          </div>
+          <div :style="styleString">hello world</div>
+          <div :style="styleObject">hello world</div>
+        `
+    })
+
+    app.component('demo', {
+        template: `
+            <div :class="$attrs.class">one</div>
+            <div :class="$attrs.class">two</div>
+            `
+    })
+
+    const vm = app.mount('#root')
+</script>
+<style>
+    .red {
+        color: red;
+    }
+
+    .green {
+        color: green;
+    }
+</style>
+</html>

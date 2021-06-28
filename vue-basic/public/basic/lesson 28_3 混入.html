@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 28_3</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    // 局部混入
+    const myMixin = {
+        number: 1
+    }
+
+    /**
+     * mixin 混入
+     * 自定义的属性，组件中的属性优先级高于 mixin 属性的优先级
+     */
+    const app = Vue.createApp({
+        number: 2,
+        mixins: [myMixin],
+        template: `
+          <div>
+          <div>{{ this.$options.number }}</div>
+          </div>
+        `
+    })
+
+    /**
+     * 可以修改 mixin 属性的混入优先级
+     * @param mixinVal
+     * @param appVal
+     * @returns {*}
+     */
+    app.config.optionMergeStrategies.number = (mixinVal, appVal) => {
+        return mixinVal || appVal
+    }
+
+    const vm = app.mount('#root')
+</script>
+
+<style scoped>
+</style>
+</html>

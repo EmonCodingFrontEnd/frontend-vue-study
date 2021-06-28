@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>lesson 11</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script lang="js">
+    const app = Vue.createApp({
+        data() {
+            return {
+                listArray: ['dell', 'lee', 'teacher'],
+                listObject: {
+                    firstName: 'dell',
+                    lastName: 'lee',
+                    job: 'teacher'
+                }
+            }
+        },
+        methods: {
+            handleAddBtnClick() {
+                // 1.使用数组的变更函数：
+                /*
+                push-在最后一个之后追加
+                pop-从最后一个删除
+                shift-从第一个删除
+                unshift-在第一个之前追加
+                sort-排序
+                 */
+                // this.listArray.push('hello')
+                // this.listArray.pop()
+                // this.listArray.shift()
+                // this.listArray.unshift('hello')
+                // this.listArray.reverse()
+
+                // 2.直接替换数组
+                // this.listArray = ['bye', 'world']
+                // this.listArray = ['bye', 'world'].concat(['lm'])
+                // this.listArray = ['bye', 'world'].filter(item => item === 'world')
+
+                // 3.直接更新数组的内容
+                // this.listArray[1] = 'hello world'
+
+                // 直接添加对象的内容，也可以自动的展示出来
+                this.listObject.age = 100;
+                this.listObject.sex = 'male';
+            }
+        },
+        template: `
+          <div>
+          <div v-for="(item, index) in listArray"
+               :key="index">
+            {{ index }}---{{ item }}
+          </div>
+          <!-- // template 占位符，可以省略一次 div -->
+          <template v-for="(value, key, index) in listObject">
+            <div v-if="key!=='lastName'">
+              {{ key }}---{{ index }}---{{ value }}
+            </div>
+          </template>
+          <button @click="handleAddBtnClick">新增</button>
+
+          <div v-for="item in 10">{{ item }}</div>
+          </div>
+        `
+    })
+
+    const vm = app.mount('#root')
+</script>
+</html>
