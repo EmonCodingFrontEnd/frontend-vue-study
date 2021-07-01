@@ -2,6 +2,7 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>{{ myName }}</h1>
   </div>
 </template>
 
@@ -13,6 +14,11 @@ export default {
   name: 'Home',
   components: {
     HelloWorld
+  },
+  computed: {
+    myName () {
+      return this.$store.state.name
+    }
   }
 }
 </script>
