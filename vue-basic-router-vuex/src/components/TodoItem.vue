@@ -2,10 +2,9 @@
   <li class="button">{{ msg }}</li>
 </template>
 
-<script lang="ts">
-
+<script>
 export default {
-  name: 'ListItem',
+  name: 'TodoItem',
   props: {
     msg: String
   }
@@ -13,5 +12,7 @@ export default {
 </script>
 
 <style scoped>
-
+li {
+  text-align: left;
+}
 </style>

@@ -1,4 +1,4 @@
-# vue-basic
+# vue-basic-router-vuex
 
 ## Project setup
 ```

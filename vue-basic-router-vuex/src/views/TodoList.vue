@@ -1,26 +1,22 @@
 <template>
-  <div>
-    <input v-model="inputValue"/>
+  <div><input v-model="inputValue"/>
     <button class="button" @click="handleAddItem">提交</button>
   </div>
   <ul>
-    <list-item v-for="(item, index) in list" :key="index" :msg="item"/>
+    <todo-item v-for="(item, index) in list" :key="index" :msg="item"></todo-item>
   </ul>
 </template>
 
 <script>
-import {reactive, ref} from 'vue'
-import ListItem from "./components/ListItem";
+import { reactive, ref } from 'vue'
+import TodoItem from '../components/TodoItem'
 
-/**
- * 单文件组件
- */
 export default {
-  name: 'App',
+  name: 'TodoList',
   components: {
-    ListItem
+    TodoItem
   },
-  setup() {
+  setup () {
     const list = reactive([])
     const inputValue = ref('')
 
@@ -28,6 +24,7 @@ export default {
       list.push(inputValue.value)
       inputValue.value = ''
     }
+
     return {
       list,
       inputValue,
@@ -37,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .button {
   margin-left: 20px;
   color: red;
