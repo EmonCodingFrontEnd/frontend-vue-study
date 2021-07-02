@@ -10,6 +10,7 @@
 import { useStore } from 'vuex'
 import { toRefs } from 'vue'
 
+// https://www.fastmock.site/mock/ae8e9031947a302fed5f92425995aa19/jd/api/user/register
 export default {
   name: 'About2',
   setup () {
@@ -21,7 +22,7 @@ export default {
     }
 
     const handleClickASync = () => {
-      store.dispatch('change', 'hello world!')
+      store.dispatch('getData')
     }
 
     return {

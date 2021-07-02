@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import axios from 'axios'
 
 // VueX 数据管理框架
 // VueX 创建了一个全局唯一的仓库，用来存放全局的数据
@@ -35,6 +36,13 @@ export default createStore({
       setTimeout(() => {
         context.commit('change', payload)
       }, 2000)
+    },
+    getData (context) {
+      const url = 'https://www.fastmock.site/mock/ae8e9031947a302fed5f92425995aa19/jd/api/user/register'
+      axios.get(url).then((response) => {
+        const msg = response.data.desc
+        context.commit('change', msg)
+      })
     }
   },
   modules: {}
