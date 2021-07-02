@@ -6,6 +6,10 @@
     <router-link to="/about">About</router-link>
     |
     <router-link to="/todo">TodoList</router-link>
+    |
+    <router-link to="/home2">Home2</router-link>
+    |
+    <router-link to="/about2">About2</router-link>
   </div>
   <!-- 负责展示当前路由对应的组件内容 -->
   <router-view/>
