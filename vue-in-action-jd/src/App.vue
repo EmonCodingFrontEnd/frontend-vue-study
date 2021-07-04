@@ -4,22 +4,22 @@
     BEM CSS
     block__element--Modifier
     -->
-    <span class="docker__item docker__item--active">
+    <div class="docker__item docker__item--active">
       <div class="iconfont">&#xe60b;</div>
       <div class="docker_title">首页</div>
-    </span>
-    <span class="docker__item">
+    </div>
+    <div class="docker__item">
       <div class="iconfont">&#xec90;</div>
       <div class="docker_title">购物车</div>
-    </span>
-    <span class="docker__item">
+    </div>
+    <div class="docker__item">
       <div class="iconfont">&#xe61e;</div>
       <div class="docker_title">订单</div>
-    </span>
-    <span class="docker__item">
+    </div>
+    <div class="docker__item">
       <div class="iconfont">&#xe61f;</div>
       <div class="docker_title">我的</div>
-    </span>
+    </div>
   </div>
 </template>
 
