@@ -5,6 +5,14 @@
       北京理工大学国防科技园2号楼10层
       <span class="iconfont position__notice">&#xe7e5;</span>
     </div>
+    <div class="search">
+      <span class="iconfont">&#xe611;</span>
+      <span class="search__text">山姆会员商店优惠商品</span>
+    </div>
+    <div class="banner">
+      <img class="banner__img" src="http://www.dell-lee.com/imgs/vue3/banner.jpg" alt="不允许点击我哦！">
+    </div>
+    <div>123</div>
   </div>
   <div class="docker">
     <!--
@@ -65,6 +73,35 @@
   }
 
   color: $content-fontcolor;
+}
+
+.search {
+  margin-bottom: .12rem;
+  line-height: .32rem;
+  background: #F5F5F5;
+  color: #B7B7B7;
+  border-radius: .16rem;
+
+  .iconfont {
+    position: relative;
+    top: .02rem;
+    display: inline-block;
+    padding: 0 .08rem 0 .16rem;
+    font-size: .2rem;
+  }
+
+  &__text {
+    display: inline-block;
+    font-size: .14rem;
+  }
+}
+
+.banner {
+  @include stop_img_shake;
+
+  &__img {
+    width: 100%;
+  }
 }
 
 .docker {

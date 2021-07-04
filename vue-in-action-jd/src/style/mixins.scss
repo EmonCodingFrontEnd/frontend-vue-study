@@ -3,3 +3,9 @@
   white-space: nowrap; // 别换行
   text-overflow: ellipsis; // 文本超载时省略
 }
+
+@mixin stop_img_shake {
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 25.4%; // 图片的高宽比，图片加载过程中，设置高度为屏幕宽度的25.4%
+}
