@@ -4,28 +4,43 @@
     BEM CSS
     block__element--Modifier
     -->
-    <div class="docker__item docker__item--active">
-      <div class="iconfont">&#xe60b;</div>
-      <div class="docker_title">首页</div>
-    </div>
-    <div class="docker__item">
-      <div class="iconfont">&#xec90;</div>
-      <div class="docker_title">购物车</div>
-    </div>
-    <div class="docker__item">
-      <div class="iconfont">&#xe61e;</div>
-      <div class="docker_title">订单</div>
-    </div>
-    <div class="docker__item">
-      <div class="iconfont">&#xe61f;</div>
-      <div class="docker_title">我的</div>
+
+    <div v-for="(item,  index) in dockerList"
+         :key="item.icon"
+         :class="{'docker__item':true, 'docker__item--active': index===0}"
+    >
+      <div class="iconfont" v-html="item.icon"/>
+      <div class="docker_title">{{ item.text }}</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Docker'
+  name: 'Docker',
+  setup () {
+    const dockerList = [
+      {
+        icon: '&#xe60b;',
+        text: '首页'
+      },
+      {
+        icon: '&#xec90;',
+        text: '购物车'
+      },
+      {
+        icon: '&#xe61e;',
+        text: '订单'
+      },
+      {
+        icon: '&#xe61f;',
+        text: '我的'
+      }
+    ]
+    return {
+      dockerList
+    }
+  }
 }
 </script>
 

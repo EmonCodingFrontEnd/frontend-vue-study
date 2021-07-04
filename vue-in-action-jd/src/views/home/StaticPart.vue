@@ -12,75 +12,14 @@
     <img class="banner__img" src="http://www.dell-lee.com/imgs/vue3/banner.jpg" alt="不允许点击我哦！">
   </div>
   <div class="icons">
-    <div class="icons__item">
+    <div v-for="(item) in iconsList"
+         :key="item.id"
+         class="icons__item">
       <img
         class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/超市.png"
+        :src="item.img"
       />
-      <p class="icons__item__desc">超市便利</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/菜市场.png"
-      />
-      <p class="icons__item__desc">菜市场</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/水果店.png"
-      />
-      <p class="icons__item__desc">水果店</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/鲜花.png"
-      />
-      <p class="icons__item__desc">鲜花绿植</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/医药健康.png"
-      />
-      <p class="icons__item__desc">医药健康</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/家居.png"
-      />
-      <p class="icons__item__desc">家居时尚</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/蛋糕.png"
-      />
-      <p class="icons__item__desc">烘培蛋糕</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/签到.png"
-      />
-      <p class="icons__item__desc">签到</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/大牌免运.png"
-      />
-      <p class="icons__item__desc">大牌免运</p>
-    </div>
-    <div class="icons__item">
-      <img
-        class="icons__item__img"
-        src="http://www.dell-lee.com/imgs/vue3/红包.png"
-      />
-      <p class="icons__item__desc">红包套餐</p>
+      <p class="icons__item__desc">{{ item.desc }}</p>
     </div>
   </div>
   <div class="gap"></div>
@@ -88,7 +27,64 @@
 
 <script>
 export default {
-  name: 'StaticPart'
+  name: 'StaticPart',
+  setup () {
+    const iconsList = [
+      {
+        id: 1,
+        img: 'http://www.dell-lee.com/imgs/vue3/超市.png',
+        desc: '超市便利'
+      },
+      {
+        id: 2,
+        img: 'http://www.dell-lee.com/imgs/vue3/菜市场.png',
+        desc: '菜市场'
+      },
+      {
+        id: 3,
+        img: 'http://www.dell-lee.com/imgs/vue3/水果店.png',
+        desc: '水果店'
+      },
+      {
+        id: 4,
+        img: 'http://www.dell-lee.com/imgs/vue3/鲜花.png',
+        desc: '鲜花绿植'
+      },
+      {
+        id: 5,
+        img: 'http://www.dell-lee.com/imgs/vue3/医药健康.png',
+        desc: '医药健康'
+      },
+      {
+        id: 6,
+        img: 'http://www.dell-lee.com/imgs/vue3/家居.png',
+        desc: '家居时尚'
+      },
+      {
+        id: 7,
+        img: 'http://www.dell-lee.com/imgs/vue3/蛋糕.png',
+        desc: '烘培蛋糕'
+      },
+      {
+        id: 8,
+        img: 'http://www.dell-lee.com/imgs/vue3/签到.png',
+        desc: '签到'
+      },
+      {
+        id: 9,
+        img: 'http://www.dell-lee.com/imgs/vue3/大牌免运.png',
+        desc: '大牌免运'
+      },
+      {
+        id: 10,
+        img: 'http://www.dell-lee.com/imgs/vue3/红包.png',
+        desc: '红包套餐'
+      }
+    ]
+    return {
+      iconsList
+    }
+  }
 }
 </script>
 
