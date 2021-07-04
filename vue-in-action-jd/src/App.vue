@@ -1,4 +1,11 @@
 <template>
+  <div class="wrapper">
+    <div class="position">
+      <span class="iconfont position__icon">&#xe604;</span>
+      北京理工大学国防科技园2号楼10层
+      <span class="iconfont position__notice">&#xe7e5;</span>
+    </div>
+  </div>
   <div class="docker">
     <!--
     BEM CSS
@@ -24,6 +31,42 @@
 </template>
 
 <style lang="scss">
+@import './style/viriables.scss';
+@import './style/mixins.scss';
+
+.wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: .5rem;
+  right: 0;
+  padding: 0 .18rem;
+  //background: blue;
+}
+
+.position {
+  position: relative;
+  padding: .16rem .24rem .16rem 0;
+  line-height: .22rem;
+  font-size: .16rem;
+  @include ellipsis;
+
+  .position__icon {
+    position: relative;
+    top: .02rem;
+    font-size: .2rem;
+  }
+
+  .position__notice {
+    position: absolute;
+    right: 0;
+    top: .17rem;
+    font-size: .2rem;
+  }
+
+  color: $content-fontcolor;
+}
+
 .docker {
   display: flex;
   box-sizing: border-box;
@@ -34,6 +77,7 @@
   width: 100%;
   height: 0.49rem;
   border-top: 1px solid #F1F1F1;
+  color: $content-fontcolor;
   //background: green;
 
   &__item {
@@ -51,7 +95,7 @@
   }
 
   &__title {
-    font-size: 20px;
+    font-size: .2rem;
     transform: scale(.5, .5);
     transform-origin: center top;
   }
