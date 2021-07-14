@@ -77,6 +77,7 @@ export default {
   components: {
     Toast
   },
+  // 职责就是告诉你，代码执行的一个流程
   setup () {
     const {
       show,
