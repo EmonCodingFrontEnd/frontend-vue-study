@@ -1,7 +1,7 @@
 <template>
   <div class="nearby">
     <h3 class="nearby__title">附近店铺</h3>
-    <ShopInfo v-for="item in nearbyList" :key="item._id" :item="item"/>
+    <ShopInfo v-for="item in nearbyList" :key="item._id" :item="item" :hide-border="false"/>
   </div>
 </template>
 
