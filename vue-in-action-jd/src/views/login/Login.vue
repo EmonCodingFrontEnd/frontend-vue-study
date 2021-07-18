@@ -5,7 +5,8 @@
       <input type="text" class="wrapper__input__content" placeholder="请输入用户名" v-model="username"/>
     </div>
     <div class="wrapper__input">
-      <input type="password" class="wrapper__input__content" placeholder="请输入密码" v-model="password"/>
+      <input type="password" class="wrapper__input__content" placeholder="请输入密码" v-model="password"
+             autocomplete="new-password"/>
     </div>
     <div class="wrapper__login--button" @click="handleLogin">登录</div>
     <div class="wrapper__login--link" @click="handleRegister">立即注册</div>
@@ -33,7 +34,6 @@ const useLoginEffect = (showToast) => {
         username: data.username,
         password: data.password
       })
-      console.log(result)
       if (result?.errno === 0) {
         localStorage.setItem('isLogin', 'true')
         router.push({ name: 'Home' })
@@ -99,8 +99,7 @@ export default {
       username,
       password,
       show,
-      toastMessage,
-      showToast
+      toastMessage
     }
   }
 }
